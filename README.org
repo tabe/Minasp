@@ -1,0 +1,40 @@
+#+TITLE: Minasp: a Nix package of Mew
+
+* Abstract
+Minasp ("Mew is Not A Single Program") is a [[https://nixos.org/][Nix]] package of [[https://www.mew.org/][Mew]], using [[https://github.com/NixOS/nixpkgs][nixpkgs]].
+This package installs a latest Mew's Emacs Lisp program as well as utility programs constituting
+the MUA, e.g. =mewl=, which [[https://github.com/kazu-yamamoto/Mew/issues/138][are ommitted when installing MELPA's Mew package]].
+
+* Usage
+Installing Mew by Minasp is easy.
+All you have to do is to enable a couple of packages defined in [[file:minasp.nix]] with =nixpkgs=' =callPackage=.
+They are named =minasp.elisp= and =minasp.utils=. The former is the Elisp part while the latter
+consists of the accompanying utility programs.
+Some examples of their usage are given as follows.
+
+** With Home Manager
+A minimal configuration in =~/.config/home-manager/home.nix= for making Mew available:
+#+begin_src nix
+{ config, pkgs, ... }: let
+
+  minasp = pkgs.callPackage ./minasp.nix {};
+
+in {
+
+  home.packages = [
+    minasp.utils
+    pkgs.stunnel
+  ];
+
+  programs.emacs = {
+    enable = true;
+    extraPackages = epkgs: [
+      minasp.elisp
+    ];
+  };
+
+}
+#+end_src
+
+* License
+[[file:LICENSE][MIT License]]
