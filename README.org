@@ -1,23 +1,31 @@
 #+TITLE: Minasp: a Nix package of Mew
 
 * Abstract
-Minasp ("Mew is Not A Single Program") is a [[https://nixos.org/][Nix]] package of [[https://www.mew.org/][Mew]], using [[https://github.com/NixOS/nixpkgs][nixpkgs]].
-This package installs a latest Mew's Emacs Lisp program as well as utility programs constituting
-the MUA, e.g. =mewl=, which [[https://github.com/kazu-yamamoto/Mew/issues/138][are ommitted when installing MELPA's Mew package]].
+Minasp ("Mew Is Not A Single Program") is a [[https://nixos.org/][Nix]] package of [[https://www.mew.org/][Mew]], based on [[https://github.com/NixOS/nixpkgs][nixpkgs]].
+This package installs Mew's Emacs Lisp program as well as utility programs
+constituting the MUA, e.g. =mewl=, which [[https://github.com/kazu-yamamoto/Mew/issues/138][are ommitted when installing MELPA's Mew package]].
 
 * Usage
 Installing Mew by Minasp is easy.
-All you have to do is to enable a couple of packages defined in [[file:minasp.nix]] with =nixpkgs=' =callPackage=.
-They are named =minasp.elisp= and =minasp.utils=. The former is the Elisp part while the latter
-consists of the accompanying utility programs.
-Some examples of their usage are given as follows.
+All you have to do is to enable a couple of packages defined in [[file:minasp.nix]] with
+=nixpkgs=' =callPackage=.
+They are named =minasp.elisp= and =minasp.utils=.
+The former is for the Elisp part of Mew while the latter consists of the accompanying utility programs.
+The followings illustrate their usage.
 
 ** With Home Manager
 A minimal configuration in =~/.config/home-manager/home.nix= for making Mew available:
 #+begin_src nix
 { config, pkgs, ... }: let
 
-  minasp = pkgs.callPackage ./minasp.nix {};
+  minasp-source = pkgs.fetchFromGitHub {
+    owner = "tabe";
+    repo = "Minasp";
+    rev = "82e5789eac8984cd0fba4a0fe0fad78fc5b361a6";
+    hash = "sha256-bN10k4AihSdEZCoEod7mt55xWQ5VYmVLyEfovzv2mdU=";
+  };
+
+  minasp = pkgs.callPackages "${minasp-source}/minasp.nix" {};
 
 in {
 
@@ -34,6 +42,18 @@ in {
   };
 
 }
+#+end_src
+
+** How to choose Mew's version
+Minasp installs the latest release of Mew by default.
+If you would like to choose another version of Mew, then specify the revision and its hash
+by providing =minasp.nix= with attribute =Mew-rev= and =Mew-hash=, respectively.
+For example,
+#+begin_src nix
+  minasp = pkgs.callPackages "${minasp-source}/minasp.nix" {
+    Mew-rev = "f46b06dba0c7f0aa371be30d704b6d9ba30a8321";
+    Mew-hash = "sha256-y3/ged8wRNPcGF5smpHc66Eubdrnj/9SF6MobzQBAF0=";
+  };
 #+end_src
 
 * License

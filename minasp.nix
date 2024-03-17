@@ -3,16 +3,16 @@
 , fetchFromGitHub
 , emacs
 , emacsPackages
+, Mew-rev ? "v6.9"
+, Mew-hash ? "sha256-2iWcsfHRgDpY402Hk/YL6+4vmrstF+yywLAdwEQr9Pg="
 }: let
 
   mew-source = fetchFromGitHub {
     owner = "kazu-yamamoto";
     repo = "Mew";
-    rev = "f46b06dba0c7f0aa371be30d704b6d9ba30a8321";
-    hash = "sha256-y3/ged8wRNPcGF5smpHc66Eubdrnj/9SF6MobzQBAF0=";
+    rev = Mew-rev;
+    hash = Mew-hash;
   };
-
-  mew-version = "6.9";
 
   mew-meta = with lib; {
     description = "Mew: Messaging in the Emacs World";
@@ -21,9 +21,11 @@
     inherit (emacs.meta) platforms;
   };
 
+  minasp-version = "0.1.0";
+
   minasp-elisp = emacsPackages.trivialBuild {
     pname = "minasp-elisp";
-    version = mew-version;
+    version = minasp-version;
 
     src = mew-source;
 
@@ -34,7 +36,7 @@
 
   minasp-utils = stdenv.mkDerivation {
     pname = "minasp-utils";
-    version = mew-version;
+    version = minasp-version;
 
     src = mew-source;
 
