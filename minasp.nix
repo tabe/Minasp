@@ -29,7 +29,20 @@
 
     src = mew-source;
 
-    sourceRoot = "source/elisp";
+    buildFlags = [ "elisp" ];
+
+    # Modified nixpkgs's pkgs/build-support/emacs/trivial.nix
+    installPhase = ''
+      runHook preInstall
+
+      LISPDIR=$out/share/emacs/site-lisp/mew
+      install -d $LISPDIR
+      install elisp/*.el elisp/*.elc $LISPDIR
+      emacs --batch -l package --eval "(package-generate-autoloads \"mew\" \"$LISPDIR\")"
+      cp -r etc $LISPDIR/
+
+      runHook postInstall
+    '';
 
     meta = mew-meta;
   };
