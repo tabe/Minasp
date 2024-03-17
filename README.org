@@ -8,7 +8,7 @@ constituting the MUA, e.g. =mewl=, which [[https://github.com/kazu-yamamoto/Mew/
 * Usage
 Installing Mew by Minasp is easy.
 All you have to do is to enable a couple of packages defined in [[file:minasp.nix]] with
-=nixpkgs=' =callPackage=.
+=nixpkgs=' =callPackages=.
 They are named =minasp.elisp= and =minasp.utils=.
 The former is for the Elisp part of Mew while the latter consists of the accompanying utility programs.
 The followings illustrate their usage.
@@ -48,7 +48,11 @@ in {
 Minasp installs the latest release of Mew by default.
 If you would like to choose another version of Mew, then specify the revision and its hash
 by providing =minasp.nix= with attribute =Mew-rev= and =Mew-hash=, respectively.
-For example,
+For example, replace a line in the above example
+#+begin_src nix
+  minasp = pkgs.callPackages "${minasp-source}/minasp.nix" {};
+#+end_src
+with
 #+begin_src nix
   minasp = pkgs.callPackages "${minasp-source}/minasp.nix" {
     Mew-rev = "f46b06dba0c7f0aa371be30d704b6d9ba30a8321";
