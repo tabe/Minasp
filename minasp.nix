@@ -25,7 +25,7 @@
 
   minasp-elisp = emacsPackages.trivialBuild {
     pname = "minasp-elisp";
-    version = minasp-version;
+    version = "${minasp-version}-${Mew-rev}";
 
     src = mew-source;
 
@@ -49,7 +49,7 @@
 
   minasp-utils = stdenv.mkDerivation {
     pname = "minasp-utils";
-    version = minasp-version;
+    version = "${minasp-version}-${Mew-rev}";
 
     src = mew-source;
 
