@@ -3,8 +3,8 @@
 , fetchFromGitHub
 , emacs
 , emacsPackages
-, Mew-rev ? "v6.9"
-, Mew-hash ? "sha256-2iWcsfHRgDpY402Hk/YL6+4vmrstF+yywLAdwEQr9Pg="
+, Mew-rev ? "v6.10"
+, Mew-hash ? "sha256-p1QcnHoXdI4N7ewc5PQdq909wfKKiVFwdAyK6UPJUo0="
 }: let
 
   mew-source = fetchFromGitHub {
@@ -21,7 +21,7 @@
     inherit (emacs.meta) platforms;
   };
 
-  minasp-version = "0.1.0";
+  minasp-version = "0.6.10";
 
   minasp-elisp = emacsPackages.trivialBuild {
     pname = "minasp-elisp";
