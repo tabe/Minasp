@@ -21,8 +21,8 @@ A minimal configuration in =~/.config/home-manager/home.nix= for making Mew avai
   minasp-source = pkgs.fetchFromGitHub {
     owner = "tabe";
     repo = "Minasp";
-    rev = "fa098840d24af1b1fe9dcd8aec3f4cac9fae5eab";
-    hash = "sha256-eHVzq4/qeRfCruf8Vi9WCSuOEClFvLWUaIzR2CVREK4=";
+    rev = "v0.6.10";
+    hash = "sha256-p1zEcrVA7WjKmQ3s8kBN5eKjVwZm7upmrmZSrnQSkOg=";
   };
 
   minasp = pkgs.callPackages "${minasp-source}/minasp.nix" {};
