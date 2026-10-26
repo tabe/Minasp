@@ -13,6 +13,37 @@ They are named =minasp.elisp= and =minasp.utils=.
 The former is for the Elisp part of Mew while the latter consists of the accompanying utility programs.
 The followings illustrate their usage.
 
+** With NixOS
+A minimal system configuration in =/etc/nixos/configuration.nix= for making Mew available:
+#+begin_src nix
+{ config, pkgs, ... }: let
+
+  minasp-source = pkgs.fetchFromGitHub {
+    owner = "tabe";
+    repo = "Minasp";
+    rev = "v0.6.11";
+    hash = "sha256-x1gjqQAZtHtrRyt3OaoK0UaFgtpR7W8fKZig7VHfbi4=";
+  };
+
+  minasp = pkgs.callPackages "${minasp-source}/minasp.nix" {};
+
+in {
+
+  environment.systemPackages = [
+    minasp.utils
+    pkgs.stunnel
+  ];
+
+  programs.emacs = {
+    enable = true;
+    extraPackages = epkgs: [
+      minasp.elisp
+    ];
+  };
+
+}
+#+end_src
+
 ** With Home Manager
 A minimal configuration in =~/.config/home-manager/home.nix= for making Mew available:
 #+begin_src nix
